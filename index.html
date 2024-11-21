@@ -742,10 +742,6 @@
 
             const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-            document.getElementById('plyaBtn').addEventListener('click', () => {
-                openStore();
-            });
-
             document.querySelector('.js-touch-area').addEventListener('touchstart', async (event) => {
                 event.preventDefault();
 
@@ -820,6 +816,10 @@
 
                                 await delay(100);
                                 playNowSecond.style.opacity = 1;
+
+                                document.getElementById('plyaBtn').addEventListener('click', () => {
+                                    openStore();
+                                });
 
                                 await delay(3000);
                                 openStore();
