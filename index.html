@@ -2,901 +2,100 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Playable ad</title>
+        <title>Playable Ad</title>
 
-        <!--http://www.html5rocks.com/en/mobile/mobifying/-->
         <meta
             name="viewport"
-            content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"
+            content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1"
         />
-
-        <!--https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html-->
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="format-detection" content="telephone=no" />
-
-        <!-- force webkit on 360 -->
         <meta name="renderer" content="webkit" />
         <meta name="force-rendering" content="webkit" />
-        <!-- force edge on IE -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta name="msapplication-tap-highlight" content="no" />
-
-        <!-- force full screen on some browser -->
         <meta name="full-screen" content="yes" />
         <meta name="x5-fullscreen" content="true" />
         <meta name="360-fullscreen" content="true" />
-
-        <!-- force screen orientation on some browser -->
         <meta name="screen-orientation" content />
         <meta name="x5-orientation" content />
         <meta name="x5-page-mode" content="app" />
-
         <meta name="ad.size" content="width=320,height=480" />
+
         <style>
-            html {
-                -ms-touch-action: none;
-            }
-
-            body,
-            div {
-                display: block;
-                outline: none;
-                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
-                user-select: none;
-                -moz-user-select: none;
-                -webkit-user-select: none;
-                -ms-user-select: none;
-                -khtml-user-select: none;
-                -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            }
-
             body {
                 margin: 0;
                 padding: 0;
-                font-family: Arial, sans-serif;
-                height: 100dvh;
-                background-image: url('https://aldorayne.github.io/images/background-min.png');
-                background-size: cover;
-                transition: background-image 1s;
-            }
-
-            body.play-now {
-                background-image: url('https://aldorayne.github.io/images/background_packshot-min.png');
-            }
-
-            .wrapper {
-                display: flex;
-                flex-direction: column;
-                height: 100dvh;
-                transition: opacity 1s;
-            }
-
-            .wrapper.js-second-screen {
-                display: none;
-                justify-content: center;
-                opacity: 0;
-            }
-
-            body.play-now .wrapper.js-second-screen {
-                padding: 0 2rem;
-                display: flex;
-            }
-
-            .play-now__block {
-                max-height: 100dvh;
-                position: relative;
-                transition: opacity 1s;
-            }
-
-            .play-now__block.play-now__block_second {
-                display: none;
-                opacity: 0;
-            }
-
-            .play-now__img {
-                width: 100%;
-                max-height: 50dvh;
-                object-fit: contain;
-            }
-
-            .play-now__img:last-child {
-                max-height: 30dvh;
-            }
-
-            .play-now__hand {
-                width: 100px;
-                position: absolute;
-                top: 68%;
-                left: 62%;
-                animation: hand-moving-animation 1.5s infinite alternate;
-            }
-
-            .container {
-                margin: 0 auto;
-                width: 100%;
-                flex-grow: 1;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .headline {
-                padding: 1rem 1.5rem;
-                width: 100%;
-                height: 8.375rem;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-                align-items: center;
-                box-sizing: border-box;
-            }
-
-            .title {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                animation: scale-animation 2s infinite;
-            }
-
-            .completed {
-                display: none;
-            }
-
-            .completed.completed_active {
-                display: block;
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
-                animation: scale-completed-animation 0.7s;
-            }
-
-            .progress {
-                display: none;
-                width: 100%;
-            }
-
-            .progress.progress_active {
-                display: grid;
-                grid-template-columns: repeat(10, 1fr);
-            }
-
-            .progress__marker,
-            .progress__item {
-                flex-shrink: 0;
-                width: 1.8rem;
-                height: 1.8rem;
-                background-color: #fff;
-                border: 1px solid #ccc;
-                border-radius: 100%;
-                box-sizing: border-box;
-            }
-
-            .progress__marker {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                position: fixed;
-                transform: translate(-50%, -50%);
-                transition: left 500ms;
+                height: 100vh;
+                background-color: #f4f4f4;
             }
-
-            .progress__marker:before {
-                content: '';
-                width: 2.8rem;
-                height: 2.7rem;
-                position: relative;
-                bottom: 0.563rem;
-                background-image: url('https://aldorayne.github.io/images/marker-min.png');
-                background-size: contain;
-                background-position: center;
-                background-repeat: no-repeat;
-            }
-
-            .progress__marker:after {
-                content: '';
-                width: 4.375rem;
-                height: 4.375rem;
-                position: absolute;
-                bottom: 1.713rem;
-                background-size: contain;
-                background-position: center;
-                background-repeat: no-repeat;
-            }
-
-            .progress__marker[data-status='sad']:after {
-                background-image: url('https://aldorayne.github.io/images/sad-min.png');
-            }
-
-            .progress__marker[data-status='smile']:after {
-                background-image: url('https://aldorayne.github.io/images/smile-min.png');
-            }
-
-            .progress__marker[data-status='happy']:after {
-                background-image: url('https://aldorayne.github.io/images/happy-min.png');
-            }
-
-            .progress__marker[data-status='amazed']:after {
-                background-image: url('https://aldorayne.github.io/images/amazed-min.png');
-            }
-
-            .progress__img {
-                width: 4.8rem;
-                position: absolute;
-                bottom: 1.9rem;
-            }
-
-            .progress__item {
-                padding: 0.25rem;
-            }
-
-            .progress__item:before {
-                content: '';
-                display: block;
-                width: 100%;
-                height: 100%;
-                background-color: #000;
-                border-radius: 100%;
-            }
-
-            .progress__item.progress__item_active:nth-child(1):before {
-                background-color: #ff0600;
-            }
-
-            .progress__item.progress__item_active:nth-child(2):before {
-                background: linear-gradient(to right, #ff3f00, #ff6a00);
-            }
-
-            .progress__item.progress__item_active:nth-child(3):before {
-                background: linear-gradient(to right, #ff9b00, #fdb200);
-            }
-
-            .progress__item.progress__item_active:nth-child(4):before {
-                background: linear-gradient(to right, #fccc00, #f1e100);
-            }
-
-            .progress__item.progress__item_active:nth-child(5):before {
-                background: linear-gradient(to right, #bbe800, #86ef00);
-            }
-
-            .progress__item.progress__item_active:nth-child(6):before {
-                background: linear-gradient(to right, #51f600, #35e44d);
-            }
-
-            .progress__item.progress__item_active:nth-child(7):before {
-                background: linear-gradient(to right, #1cd0a0, #02bcf7);
-            }
-
-            .progress__item.progress__item_active:nth-child(8):before {
-                background: linear-gradient(to right, #0196fe, #0173fe);
-            }
-
-            .progress__item.progress__item_active:nth-child(9):before {
-                background: linear-gradient(to right, #5123fd, #7114fe);
-            }
-
-            .progress__item.progress__item_active:nth-child(10):before {
-                background: linear-gradient(to right, #8f08fe, #aa16ff);
-            }
-
-            .img-wrapper {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center;
-                position: relative;
-            }
-            .img-wrapper__img {
-                width: 100%;
-                max-height: calc((100dvh - 8.375rem) / 2);
-                object-fit: contain;
-                pointer-events: none;
-            }
-
-            .img-wrapper__glow {
-                position: absolute;
-                top: 72.8%;
-                left: 68.6%;
-                width: 22%;
-                pointer-events: none;
-            }
-
-            .img-wrapper__hand {
-                position: absolute;
-                top: 80.6%;
-                left: 77%;
-                width: 22%;
-                transform: translate(-90%, 180%);
-                animation: moveIn 2s ease-out infinite;
-                pointer-events: none;
-            }
-
-            .img-wrapper__compare {
-                position: absolute;
-                left: 0;
-                width: 100%;
-                height: 50%;
-            }
-
-            .img-wrapper__compare.img-wrapper__compare_top {
-                top: 0;
-            }
-
-            .img-wrapper__compare.img-wrapper__compare_bottom {
-                bottom: 0;
-            }
-
-            .wrong-element {
-                width: 5rem;
-                height: 5rem;
-                position: absolute;
-                transform: translate(-50%, -50%);
-            }
-
-            .wrong-element:before {
-                content: '';
-                display: block;
-                width: 100%;
-                height: 100%;
-                background-image: url('https://aldorayne.github.io/images/wrong-min.png');
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-                animation: scale-animation 1.5s;
-            }
-
-            .counter {
-                padding: 1rem;
-                position: absolute;
-                top: 0;
-                right: 0;
-                color: #fff;
-                font-size: 1.5rem;
-                border: 3px solid #fff;
-                border-top: none;
-                border-right: none;
-                background-color: #8bb9fe90;
-            }
-
-            .compare-btn {
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                background: none;
-                border: none;
-                transform: translate(-50%, -50%);
-            }
-
-            .compare-btn.correct:before {
-                content: '';
-                width: 5rem;
-                height: 5rem;
-                position: absolute;
-                background-image: url('https://aldorayne.github.io/images/correct-min.png');
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-                animation: scale-animation 1.5s;
-            }
-
-            .compare-btn[data-compare='1'] {
-                top: 83%;
-                left: 80%;
-                width: 18%;
-                height: 13%;
-            }
-
-            .compare-btn[data-compare='2'] {
-                top: 32%;
-                left: 30.5%;
-                width: 10%;
-                height: 9%;
-            }
-
-            .compare-btn[data-compare='3'] {
-                top: 17%;
-                left: 46%;
-                width: 22%;
-                height: 20%;
-            }
-
-            .compare-btn[data-compare='4'] {
-                top: 35%;
-                left: 48%;
-                width: 8%;
-                height: 8%;
-            }
-
-            .compare-btn[data-compare='5'] {
-                top: 20%;
-                left: 88%;
-                width: 14%;
-                height: 13%;
-            }
-
-            .compare-btn[data-compare='6'] {
-                top: 56%;
-                left: 71%;
-                width: 7%;
-                height: 25%;
-            }
-
-            .compare-btn[data-compare='7'] {
-                top: 74%;
-                left: 72.5%;
-                width: 12%;
-                height: 5%;
-            }
-
-            .compare-btn[data-compare='8'] {
-                top: 56.5%;
-                left: 17.5%;
-                width: 5%;
-                height: 12%;
-            }
-
-            .compare-btn[data-compare='9'] {
-                top: 84%;
-                left: 42%;
-                width: 28%;
-                height: 19%;
-            }
-
-            .compare-btn[data-compare='10'] {
-                top: 28%;
-                left: 8%;
-                width: 8%;
-                height: 13%;
-            }
-
-            @keyframes moveIn {
-                0% {
-                    transform: translate(-90%, 180%);
-                }
-                40% {
-                    transform: translate(0, 0);
-                }
-                80% {
-                    opacity: 1;
-                }
-                100% {
-                    transform: translate(0, 0);
-                    opacity: 0;
-                }
-            }
-
-            @keyframes scale-animation {
-                0% {
-                    transform: scale(1);
-                }
-                50% {
-                    transform: scale(1.2);
-                }
-                100% {
-                    transform: scale(1);
-                }
-            }
-
-            @keyframes scale-completed-animation {
-                0% {
-                    transform: scale(0);
-                }
-                70% {
-                    transform: scale(1.02);
-                }
-                100% {
-                    transform: scale(1);
-                }
-            }
-
-            @keyframes hand-moving-animation {
-                from {
-                    top: 68%;
-                }
-                to {
-                    top: 21%;
-                }
-            }
-
-            @media (orientation: landscape) {
-                .headline {
-                    padding: 0.4rem 8rem;
-                    height: 6rem;
-                }
-
-                .progress__img {
-                    bottom: 1.4rem;
-                }
-
-                .progress__marker:after {
-                    bottom: 1.313rem;
-                }
-
-                .img-wrapper {
-                    flex-direction: row;
-                }
-
-                .img-wrapper__img {
-                    max-height: calc(100dvh - 6rem);
-                    width: 50%;
-                }
-
-                .img-wrapper__compare {
-                    height: 100%;
-                    width: 50%;
-                }
-
-                .img-wrapper__compare.img-wrapper__compare_bottom {
-                    left: auto;
-                    right: 0;
-                }
-
-                .img-wrapper__hand {
-                    width: 17%;
-                }
-
-                .play-now__block.play-now__block_first {
-                    padding: 1rem;
-                    display: flex;
-                    box-sizing: border-box;
-                }
-
-                .play-now__img {
-                    max-width: 50%;
-                    max-height: 100%;
-                }
-
-                .play-now__block.play-now__block_second .play-now__img {
-                    margin: 0 auto;
-                    display: block;
-                    max-width: 100dvh;
-                    max-height: 70dvh;
-                }
-
-                .play-now__block.play-now__block_second .play-now__img:last-child {
-                    max-height: 30dvh;
-                }
-
-                .play-now__hand {
-                    top: 46%;
-                    left: 75%;
-                }
-
-                @keyframes moveIn {
-                    0% {
-                        transform: translate(180%, -90%);
-                    }
-                    40% {
-                        transform: translate(0, 0);
-                    }
-                    80% {
-                        opacity: 1;
-                    }
-                    100% {
-                        transform: translate(0, 0);
-                        opacity: 0;
-                    }
-                }
-
-                @keyframes hand-moving-animation {
-                    from {
-                        left: 25%;
-                    }
-                    to {
-                        left: 75%;
-                    }
-                }
+            #ad-container {
+                width: 300px;
+                height: 250px;
+                background-color: #007bff;
+                color: white;
+                text-align: center;
+                line-height: 250px;
+                cursor: pointer;
+                border-radius: 8px;
             }
         </style>
-        <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
     </head>
     <body>
-        <div class="wrapper js-first-screen">
-            <div class="headline">
-                <img
-                    class="title js-title"
-                    src="https://aldorayne.github.io/images/title-min.png"
-                />
-                <img
-                    class="completed js-completed"
-                    src="https://aldorayne.github.io/images/completed-min.png"
-                />
-                <div class="progress js-progress">
-                    <div class="progress__item progress__item_active"></div>
-                    <div class="progress__item"></div>
-                    <div class="progress__item"></div>
-                    <div class="progress__item"></div>
-                    <div class="progress__item"></div>
-                    <div class="progress__item"></div>
-                    <div class="progress__item"></div>
-                    <div class="progress__item"></div>
-                    <div class="progress__item"></div>
-                    <div class="progress__item"></div>
-                    <div class="progress__marker">
-                        <img
-                            class="progress__img"
-                            src="https://aldorayne.github.io/images/brain-min.png"
-                        />
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="img-wrapper js-touch-area">
-                    <div class="counter js-counter">0 / 10</div>
-                    <div class="img-wrapper__compare img-wrapper__compare_top">
-                        <button class="compare-btn" data-compare="1"></button>
-                        <button class="compare-btn" data-compare="2"></button>
-                        <button class="compare-btn" data-compare="3"></button>
-                        <button class="compare-btn" data-compare="4"></button>
-                        <button class="compare-btn" data-compare="5"></button>
-                        <button class="compare-btn" data-compare="6"></button>
-                        <button class="compare-btn" data-compare="7"></button>
-                        <button class="compare-btn" data-compare="8"></button>
-                        <button class="compare-btn" data-compare="9"></button>
-                        <button class="compare-btn" data-compare="10"></button>
-                        <img
-                            class="img-wrapper__glow js-hint"
-                            src="https://aldorayne.github.io/images/glow-min.png"
-                        />
-                        <img
-                            class="img-wrapper__hand js-hint"
-                            src="https://aldorayne.github.io/images/hand-min.png"
-                        />
-                    </div>
-                    <div class="img-wrapper__compare img-wrapper__compare_bottom">
-                        <button class="compare-btn" data-compare="1"></button>
-                        <button class="compare-btn" data-compare="2"></button>
-                        <button class="compare-btn" data-compare="3"></button>
-                        <button class="compare-btn" data-compare="4"></button>
-                        <button class="compare-btn" data-compare="5"></button>
-                        <button class="compare-btn" data-compare="6"></button>
-                        <button class="compare-btn" data-compare="7"></button>
-                        <button class="compare-btn" data-compare="8"></button>
-                        <button class="compare-btn" data-compare="9"></button>
-                        <button class="compare-btn" data-compare="10"></button>
-                    </div>
-                    <img
-                        class="img-wrapper__img"
-                        src="https://aldorayne.github.io/images/pic1-min.png"
-                    />
-                    <img
-                        class="img-wrapper__img"
-                        src="https://aldorayne.github.io/images/pic2-min.png"
-                    />
-                </div>
-            </div>
-        </div>
-        <div class="wrapper js-second-screen">
-            <div class="play-now__block play-now__block_first">
-                <img
-                    class="play-now__img"
-                    src="https://aldorayne.github.io/images/play-next-1-min.png"
-                />
-                <img
-                    class="play-now__img"
-                    src="https://aldorayne.github.io/images/play-next-2-min.png"
-                />
-                <img
-                    class="play-now__hand"
-                    src="https://aldorayne.github.io/images/hand-min.png"
-                />
-            </div>
-            <div class="play-now__block play-now__block_second">
-                <img
-                    class="play-now__img"
-                    src="https://aldorayne.github.io/images/packshot_text-min.png"
-                />
-                <img
-                    class="play-now__img"
-                    src="https://aldorayne.github.io/images/packshot_button-min.png"
-                />
-            </div>
-        </div>
-        <audio id="audio">
-            <source
-                src="https://aldorayne.github.io/sounds/music.mp3"
-                type="audio/mp3"
-            />
-        </audio>
+        <div id="ad-container">Click to Expand</div>
 
         <script>
-            const audioCorrect = new Audio(
-                'https://aldorayne.github.io/sounds/correct.mp3'
-            );
-            const audioWrong = new Audio(
-                'https://aldorayne.github.io/sounds/wrong.mp3'
-            );
-
-            const firstScreen = document.querySelector('.js-first-screen');
-            const secondScreen = document.querySelector('.js-second-screen');
-            const playNowFirst = secondScreen.querySelector('.play-now__block_first');
-            const playNowSecond = secondScreen.querySelector('.play-now__block_second');
-            const counter = document.querySelector('.js-counter');
-            const title = document.querySelector('.js-title');
-            const completed = document.querySelector('.js-completed');
-            const progress = document.querySelector('.js-progress');
-            const progressItems = progress.querySelectorAll('.progress__item');
-            const marker = progress.querySelector('.progress__marker');
-
-            let activeItem = 0;
-            let count = 0;
-            let firstTouch = true;
-            let readyToTouch = true;
-
-            const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-            document.querySelector('.js-touch-area').addEventListener('touchstart', async (event) => {
-                event.preventDefault();
-
-                if (!readyToTouch) return;
-
-                readyToTouch = false;
-
-                const target = event.target;
-
-                if (target.classList.contains('compare-btn')) {
-                    // guessed general touch
-                    if (!firstTouch) {
-                        audioCorrect.play();
-
-                        target.classList.add('correct');
-
-                        count++;
-                        counter.textContent = `${count} / 10`;
-
-                        activeItem++;
-
-                        setTimeout(async () => {
-                            progressItems[activeItem].classList.add('progress__item_active');
-
-                            // win
-                            if (count === 3) {
-                                await delay(500);
-                                const audioWin = new Audio(
-                                    'https://aldorayne.github.io/sounds/win.mp3'
-                                );
-                                audioWin.play();
-
-                                progress.remove();
-                                completed.classList.add('completed_active');
-
-                                // confetti
-                                const end = Date.now() + 1000;
-                                const colors = ['#ff39fc', '#fdfd30', '#551ece', '#020202', '#ffe9b3'];
-
-                                (function frame() {
-                                    confetti({
-                                        particleCount: 2,
-                                        angle: 60,
-                                        spread: 55,
-                                        origin: { x: 0 },
-                                        colors: colors,
-                                    });
-
-                                    confetti({
-                                        particleCount: 2,
-                                        angle: 120,
-                                        spread: 55,
-                                        origin: { x: 1 },
-                                        colors: colors,
-                                    });
-
-                                    if (Date.now() < end) requestAnimationFrame(frame);
-                                })();
-
-                                await delay(4000);
-                                firstScreen.style.opacity = 0;
-                                document.body.classList.add('play-now');
-
-                                await delay(1000);
-                                firstScreen.remove();
-                                secondScreen.style.opacity = 1;
-
-                                await delay(5000);
-                                playNowFirst.style.opacity = 0;
-
-                                await delay(1000);
-                                playNowFirst.remove();
-                                playNowSecond.style.display = 'block';
-
-                                await delay(100);
-                                playNowSecond.style.opacity = 1;
-                            }
-                        }, 500);
-
-                        // guessed first touch
-                    } else if (target.getAttribute('data-compare') === '1') {
-                        firstTouch = false;
-                        await delay(100);
-                        const audio = document.getElementById('audio');
-                        audio.loop = true;
-                        audio.play();
-
-                        const hints = document.querySelectorAll('.js-hint');
-                        hints.forEach((hint) => hint.remove());
-
-                        audioCorrect.play();
-
-                        target.classList.add('correct');
-
-                        count++;
-                        counter.textContent = `${count} / 10`;
-
-                        title.remove();
-                        progress.classList.add('progress_active');
-                    }
-
-                    // not guessed
-                } else if (!firstTouch) {
-                    audioWrong.play();
-
-                    const { clientX, clientY } = event.touches[0];
-                    const wrongElement = document.createElement('div');
-
-                    wrongElement.className = 'wrong-element';
-                    wrongElement.style.left = `${clientX}px`;
-                    wrongElement.style.top = `${clientY}px`;
-
-                    document.body.appendChild(wrongElement);
-
-                    activeItem = activeItem === 0 ? 0 : activeItem - 1;
-
-                    progressItems[activeItem + 1].classList.remove('progress__item_active');
-                }
-
-                const rect = progressItems[activeItem].getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
-
-                marker.style.left = `${centerX}px`;
-                marker.style.top = `${centerY}px`;
-
-                if (activeItem < 2) {
-                    marker.setAttribute('data-status', 'sad');
-                } else if (activeItem < 5) {
-                    marker.setAttribute('data-status', 'smile');
-                } else if (activeItem < 8) {
-                    marker.setAttribute('data-status', 'happy');
+            function initMRAID() {
+                if (mraid.getState() === "loading") {
+                    mraid.addEventListener("ready", setupAd);
                 } else {
-                    marker.setAttribute('data-status', 'amazed');
+                    setupAd();
                 }
+            }
 
-                // field clearing
-                setTimeout(() => {
-                    const wrongElement = document.querySelector('.wrong-element');
+            function setupAd() {
+                const adContainer = document.getElementById("ad-container");
 
-                    if (wrongElement) {
-                        wrongElement.remove();
+                // Expand on click
+                adContainer.addEventListener("click", () => {
+                    if (mraid.isViewable()) {
+                        mraid.expand();
                     } else {
-                        const correctElement = document.querySelector('.compare-btn.correct');
-
-                        if (correctElement) {
-                            const dataAttribute = correctElement.getAttribute('data-compare');
-                            const dataButtons = document.querySelectorAll(
-                                `[data-compare="${dataAttribute}"]`
-                            );
-
-                            dataButtons.forEach((button) => button.remove());
-                        }
+                        console.log("Ad is not viewable");
                     }
+                });
 
-                    readyToTouch = true;
-                }, 1500);
-            });
+                // State change listener
+                mraid.addEventListener("stateChange", (state) => {
+                    if (state === "expanded") {
+                        adContainer.textContent = "Ad Expanded! Tap to Close";
+                        adContainer.style.lineHeight = "500px";
+                        adContainer.style.height = "500px";
+                    } else if (state === "default") {
+                        adContainer.textContent = "Click to Expand";
+                        adContainer.style.lineHeight = "250px";
+                        adContainer.style.height = "250px";
+                    }
+                });
 
-            window.addEventListener('orientationchange', function () {
-                setTimeout(() => {
-                    const rect = progressItems[activeItem].getBoundingClientRect();
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
+                // Viewable change listener
+                mraid.addEventListener("viewableChange", (isViewable) => {
+                    console.log("Viewable state changed:", isViewable);
+                });
+            }
 
-                    marker.style.left = `${centerX}px`;
-                    marker.style.top = `${centerY}px`;
-                }, 0);
-            });
+            // Initialize MRAID if available
+            if (typeof mraid !== "undefined") {
+                initMRAID();
+            } else {
+                console.error(
+                    "MRAID is not available. Test in an MRAID-compliant environment."
+                );
+            }
         </script>
     </body>
 </html>
