@@ -57,13 +57,12 @@
                 padding: 0;
                 font-family: Arial, sans-serif;
                 height: 100dvh;
-                background-image: url('https://aldorayne.github.io/images/background-min.png');
-                background-size: cover;
-                transition: background-image 1s;
+                background-image: linear-gradient(to bottom, #8bb9fe, #618ed1);
+                transition: background-image 3s;
             }
 
             body.play-now {
-                background-image: url('https://aldorayne.github.io/images/background_packshot-min.png');
+                background-image: linear-gradient(to bottom, #6a98db, #4169a5);
             }
 
             .wrapper {
@@ -138,6 +137,7 @@
                 height: 100%;
                 object-fit: contain;
                 animation: scale-animation 2s infinite;
+                will-change: transform;
             }
 
             .completed {
@@ -150,6 +150,7 @@
                 height: 100%;
                 object-fit: contain;
                 animation: scale-completed-animation 0.7s;
+                will-change: transform;
             }
 
             .progress {
@@ -194,7 +195,7 @@
                 background-repeat: no-repeat;
             }
 
-            .progress__marker:after {
+            .progress__marker-emoji {
                 content: '';
                 width: 4.375rem;
                 height: 4.375rem;
@@ -203,22 +204,15 @@
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
+                opacity: 0;
+                will-change: opacity;
             }
 
-            .progress__marker[data-status='sad']:after {
-                background-image: url('https://aldorayne.github.io/images/sad-min.png');
-            }
-
-            .progress__marker[data-status='smile']:after {
-                background-image: url('https://aldorayne.github.io/images/smile-min.png');
-            }
-
-            .progress__marker[data-status='happy']:after {
-                background-image: url('https://aldorayne.github.io/images/happy-min.png');
-            }
-
-            .progress__marker[data-status='amazed']:after {
-                background-image: url('https://aldorayne.github.io/images/amazed-min.png');
+            .progress__marker[data-status='sad'] .progress__marker-emoji.progress__marker-emoji_sad,
+            .progress__marker[data-status='smile'] .progress__marker-emoji.progress__marker-emoji_smile,
+            .progress__marker[data-status='happy'] .progress__marker-emoji.progress__marker-emoji_happy,
+            .progress__marker[data-status='amazed'] .progress__marker-emoji.progress__marker-emoji_amazed {
+                opacity: 1;
             }
 
             .progress__img {
@@ -310,6 +304,7 @@
                 transform: translate(-90%, 180%);
                 animation: moveIn 2s ease-out infinite;
                 pointer-events: none;
+                will-change: transform, opacity;
             }
 
             .img-wrapper__compare {
@@ -344,6 +339,7 @@
                 background-repeat: no-repeat;
                 background-position: center;
                 animation: scale-animation 1.5s;
+                will-change: transform;
             }
 
             .counter {
@@ -380,6 +376,7 @@
                 background-repeat: no-repeat;
                 background-position: center;
                 animation: scale-animation 1.5s;
+                will-change: transform;
             }
 
             .compare-btn[data-compare='1'] {
@@ -614,6 +611,22 @@
                     <div class="progress__item"></div>
                     <div class="progress__marker">
                         <img class="progress__img" src="https://aldorayne.github.io/images/brain-min.png" />
+                        <img
+                            class="progress__marker-emoji progress__marker-emoji_sad"
+                            src="https://aldorayne.github.io/images/sad-min.png"
+                        />
+                        <img
+                            class="progress__marker-emoji progress__marker-emoji_smile"
+                            src="https://aldorayne.github.io/images/smile-min.png"
+                        />
+                        <img
+                            class="progress__marker-emoji progress__marker-emoji_happy"
+                            src="https://aldorayne.github.io/images/happy-min.png"
+                        />
+                        <img
+                            class="progress__marker-emoji progress__marker-emoji_amazed"
+                            src="https://aldorayne.github.io/images/amazed-min.png"
+                        />
                     </div>
                 </div>
             </div>
