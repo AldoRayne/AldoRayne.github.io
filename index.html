@@ -701,5 +701,202 @@
                 type="audio/mp3"
             />
         </audio>
+
+        <script>
+            const audioCorrect = new Audio(
+                'https://aldorayne.github.io/sounds/correct.mp3'
+            );
+            const audioWrong = new Audio(
+                'https://aldorayne.github.io/sounds/wrong.mp3'
+            );
+
+            const firstScreen = document.querySelector('.js-first-screen');
+            const secondScreen = document.querySelector('.js-second-screen');
+            const playNowFirst = secondScreen.querySelector('.play-now__block_first');
+            const playNowSecond = secondScreen.querySelector('.play-now__block_second');
+            const counter = document.querySelector('.js-counter');
+            const title = document.querySelector('.js-title');
+            const completed = document.querySelector('.js-completed');
+            const progress = document.querySelector('.js-progress');
+            const progressItems = progress.querySelectorAll('.progress__item');
+            const marker = progress.querySelector('.progress__marker');
+
+            let activeItem = 0;
+            let count = 0;
+            let firstTouch = true;
+            let readyToTouch = true;
+
+            const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+            document.querySelector('.js-touch-area').addEventListener('touchstart', async (event) => {
+                event.preventDefault();
+
+                if (!readyToTouch) return;
+
+                readyToTouch = false;
+
+                const target = event.target;
+
+                if (target.classList.contains('compare-btn')) {
+                    // guessed general touch
+                    if (!firstTouch) {
+                        audioCorrect.play();
+
+                        target.classList.add('correct');
+
+                        count++;
+                        counter.textContent = `${count} / 10`;
+
+                        activeItem++;
+
+                        setTimeout(async () => {
+                            progressItems[activeItem].classList.add('progress__item_active');
+
+                            // win
+                            if (count === 3) {
+                                await delay(500);
+                                const audioWin = new Audio(
+                                    'https://aldorayne.github.io/sounds/win.mp3'
+                                );
+                                audioWin.play();
+
+                                progress.remove();
+                                completed.classList.add('completed_active');
+
+                                // confetti
+                                const end = Date.now() + 1000;
+                                const colors = ['#ff39fc', '#fdfd30', '#551ece', '#020202', '#ffe9b3'];
+
+                                (function frame() {
+                                    confetti({
+                                        particleCount: 2,
+                                        angle: 60,
+                                        spread: 55,
+                                        origin: { x: 0 },
+                                        colors: colors,
+                                    });
+
+                                    confetti({
+                                        particleCount: 2,
+                                        angle: 120,
+                                        spread: 55,
+                                        origin: { x: 1 },
+                                        colors: colors,
+                                    });
+
+                                    if (Date.now() < end) requestAnimationFrame(frame);
+                                })();
+
+                                await delay(4000);
+                                firstScreen.style.opacity = 0;
+                                document.body.classList.add('play-now');
+
+                                await delay(1000);
+                                firstScreen.remove();
+                                secondScreen.style.opacity = 1;
+
+                                await delay(5000);
+                                playNowFirst.style.opacity = 0;
+
+                                await delay(1000);
+                                playNowFirst.remove();
+                                playNowSecond.style.display = 'block';
+
+                                await delay(100);
+                                playNowSecond.style.opacity = 1;
+                            }
+                        }, 500);
+
+                        // guessed first touch
+                    } else if (target.getAttribute('data-compare') === '1') {
+                        firstTouch = false;
+                        await delay(100);
+                        const audio = document.getElementById('audio');
+                        audio.loop = true;
+                        audio.play();
+
+                        const hints = document.querySelectorAll('.js-hint');
+                        hints.forEach((hint) => hint.remove());
+
+                        audioCorrect.play();
+
+                        target.classList.add('correct');
+
+                        count++;
+                        counter.textContent = `${count} / 10`;
+
+                        title.remove();
+                        progress.classList.add('progress_active');
+                    }
+
+                    // not guessed
+                } else if (!firstTouch) {
+                    audioWrong.play();
+
+                    const { clientX, clientY } = event.touches[0];
+                    const wrongElement = document.createElement('div');
+
+                    wrongElement.className = 'wrong-element';
+                    wrongElement.style.left = `${clientX}px`;
+                    wrongElement.style.top = `${clientY}px`;
+
+                    document.body.appendChild(wrongElement);
+
+                    activeItem = activeItem === 0 ? 0 : activeItem - 1;
+
+                    progressItems[activeItem + 1].classList.remove('progress__item_active');
+                }
+
+                const rect = progressItems[activeItem].getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                marker.style.left = `${centerX}px`;
+                marker.style.top = `${centerY}px`;
+
+                if (activeItem < 2) {
+                    marker.setAttribute('data-status', 'sad');
+                } else if (activeItem < 5) {
+                    marker.setAttribute('data-status', 'smile');
+                } else if (activeItem < 8) {
+                    marker.setAttribute('data-status', 'happy');
+                } else {
+                    marker.setAttribute('data-status', 'amazed');
+                }
+
+                // field clearing
+                setTimeout(() => {
+                    const wrongElement = document.querySelector('.wrong-element');
+
+                    if (wrongElement) {
+                        wrongElement.remove();
+                    } else {
+                        const correctElement = document.querySelector('.compare-btn.correct');
+
+                        if (correctElement) {
+                            const dataAttribute = correctElement.getAttribute('data-compare');
+                            const dataButtons = document.querySelectorAll(
+                                `[data-compare="${dataAttribute}"]`
+                            );
+
+                            dataButtons.forEach((button) => button.remove());
+                        }
+                    }
+
+                    readyToTouch = true;
+                }, 1500);
+            });
+
+            window.addEventListener('orientationchange', function () {
+                setTimeout(() => {
+                    const rect = progressItems[activeItem].getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+
+                    marker.style.left = `${centerX}px`;
+                    marker.style.top = `${centerY}px`;
+                }, 0);
+            });
+        </script>
     </body>
 </html>
