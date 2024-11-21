@@ -665,7 +665,11 @@
             </div>
             <div class="play-now__block play-now__block_second">
                 <img class="play-now__img" src="https://aldorayne.github.io/images/packshot_text-min.png" />
-                <img class="play-now__img" src="https://aldorayne.github.io/images/packshot_button-min.png" />
+                <img
+                    id="playBtn"
+                    class="play-now__img"
+                    src="https://aldorayne.github.io/images/packshot_button-min.png"
+                />
             </div>
         </div>
         <audio id="audio">
@@ -737,6 +741,10 @@
             let readyToTouch = true;
 
             const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+            document.getElementById('plyaBtn').addEventListener('click', () => {
+                openStore();
+            });
 
             document.querySelector('.js-touch-area').addEventListener('touchstart', async (event) => {
                 event.preventDefault();
