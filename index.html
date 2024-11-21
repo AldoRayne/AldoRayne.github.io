@@ -596,10 +596,7 @@
     <body>
         <div class="wrapper js-first-screen">
             <div class="headline">
-                <img
-                    class="title js-title"
-                    src="https://aldorayne.github.io/images/title-min.png"
-                />
+                <img class="title js-title" src="https://aldorayne.github.io/images/title-min.png" />
                 <img
                     class="completed js-completed"
                     src="https://aldorayne.github.io/images/completed-min.png"
@@ -616,10 +613,7 @@
                     <div class="progress__item"></div>
                     <div class="progress__item"></div>
                     <div class="progress__marker">
-                        <img
-                            class="progress__img"
-                            src="https://aldorayne.github.io/images/brain-min.png"
-                        />
+                        <img class="progress__img" src="https://aldorayne.github.io/images/brain-min.png" />
                     </div>
                 </div>
             </div>
@@ -658,57 +652,73 @@
                         <button class="compare-btn" data-compare="9"></button>
                         <button class="compare-btn" data-compare="10"></button>
                     </div>
-                    <img
-                        class="img-wrapper__img"
-                        src="https://aldorayne.github.io/images/pic1-min.png"
-                    />
-                    <img
-                        class="img-wrapper__img"
-                        src="https://aldorayne.github.io/images/pic2-min.png"
-                    />
+                    <img class="img-wrapper__img" src="https://aldorayne.github.io/images/pic1-min.png" />
+                    <img class="img-wrapper__img" src="https://aldorayne.github.io/images/pic2-min.png" />
                 </div>
             </div>
         </div>
         <div class="wrapper js-second-screen">
             <div class="play-now__block play-now__block_first">
-                <img
-                    class="play-now__img"
-                    src="https://aldorayne.github.io/images/play-next-1-min.png"
-                />
-                <img
-                    class="play-now__img"
-                    src="https://aldorayne.github.io/images/play-next-2-min.png"
-                />
-                <img
-                    class="play-now__hand"
-                    src="https://aldorayne.github.io/images/hand-min.png"
-                />
+                <img class="play-now__img" src="https://aldorayne.github.io/images/play-next-1-min.png" />
+                <img class="play-now__img" src="https://aldorayne.github.io/images/play-next-2-min.png" />
+                <img class="play-now__hand" src="https://aldorayne.github.io/images/hand-min.png" />
             </div>
             <div class="play-now__block play-now__block_second">
-                <img
-                    class="play-now__img"
-                    src="https://aldorayne.github.io/images/packshot_text-min.png"
-                />
-                <img
-                    class="play-now__img"
-                    src="https://aldorayne.github.io/images/packshot_button-min.png"
-                />
+                <img class="play-now__img" src="https://aldorayne.github.io/images/packshot_text-min.png" />
+                <img class="play-now__img" src="https://aldorayne.github.io/images/packshot_button-min.png" />
             </div>
         </div>
         <audio id="audio">
-            <source
-                src="https://aldorayne.github.io/sounds/music.mp3"
-                type="audio/mp3"
-            />
+            <source src="https://aldorayne.github.io/sounds/music.mp3" type="audio/mp3" />
         </audio>
 
         <script>
-            const audioCorrect = new Audio(
-                'https://aldorayne.github.io/sounds/correct.mp3'
-            );
-            const audioWrong = new Audio(
-                'https://aldorayne.github.io/sounds/wrong.mp3'
-            );
+            function getOS() {
+                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                if (/android/i.test(userAgent)) {
+                    return 'android';
+                }
+
+                if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                    return 'ios';
+                }
+
+                return 'unknown';
+            }
+
+            function getStoreLink() {
+                const os = getOS();
+                if (os === 'android') {
+                    return 'https://play.google.com/store/apps/details?id=com.veraxen.sortpuzzle&hl=en';
+                }
+
+                if (os === 'ios') {
+                    return 'https://apps.apple.com/pl/app/sorting-game-sort-colors/id6463613824';
+                }
+
+                return '';
+            }
+
+            function openStore() {
+                const storeLink = getStoreLink();
+                if (typeof window.playable !== 'undefined' && window.playable.openStore) {
+                    window.playable.openStore(); // Google Ads
+                } else if (typeof appLovinClick === 'function') {
+                    appLovinClick(); // AppLovin
+                } else if (typeof isSDK !== 'undefined' && isSDK.finish) {
+                    isSDK.finish(); // IronSource
+                } else if (typeof TikTokPlayable !== 'undefined' && TikTokPlayable.playableEnd) {
+                    TikTokPlayable.playableEnd(); // TikTok
+                } else if (typeof mtgGame !== 'undefined') {
+                    mtgGame.playableEnd(); // Mintegral
+                } else {
+                    console.log(`Redirecting to: ${storeLink}`);
+                    window.location.href = storeLink; // Универсальный fallback
+                }
+            }
+
+            const audioCorrect = new Audio('https://aldorayne.github.io/sounds/correct.mp3');
+            const audioWrong = new Audio('https://aldorayne.github.io/sounds/wrong.mp3');
 
             const firstScreen = document.querySelector('.js-first-screen');
             const secondScreen = document.querySelector('.js-second-screen');
@@ -755,9 +765,7 @@
                             // win
                             if (count === 3) {
                                 await delay(500);
-                                const audioWin = new Audio(
-                                    'https://aldorayne.github.io/sounds/win.mp3'
-                                );
+                                const audioWin = new Audio('https://aldorayne.github.io/sounds/win.mp3');
                                 audioWin.play();
 
                                 progress.remove();
@@ -804,6 +812,9 @@
 
                                 await delay(100);
                                 playNowSecond.style.opacity = 1;
+
+                                await delay(3000);
+                                openStore();
                             }
                         }, 500);
 
