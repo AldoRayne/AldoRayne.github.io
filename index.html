@@ -46,56 +46,6 @@
         </style>
     </head>
     <body>
-        <div id="ad-container">Click to Expand</div>
-
-        <script>
-            function initMRAID() {
-                if (mraid.getState() === "loading") {
-                    mraid.addEventListener("ready", setupAd);
-                } else {
-                    setupAd();
-                }
-            }
-
-            function setupAd() {
-                const adContainer = document.getElementById("ad-container");
-
-                // Expand on click
-                adContainer.addEventListener("click", () => {
-                    if (mraid.isViewable()) {
-                        mraid.expand();
-                    } else {
-                        console.log("Ad is not viewable");
-                    }
-                });
-
-                // State change listener
-                mraid.addEventListener("stateChange", (state) => {
-                    if (state === "expanded") {
-                        adContainer.textContent = "Ad Expanded! Tap to Close";
-                        adContainer.style.lineHeight = "500px";
-                        adContainer.style.height = "500px";
-                    } else if (state === "default") {
-                        adContainer.textContent = "Click to Expand";
-                        adContainer.style.lineHeight = "250px";
-                        adContainer.style.height = "250px";
-                    }
-                });
-
-                // Viewable change listener
-                mraid.addEventListener("viewableChange", (isViewable) => {
-                    console.log("Viewable state changed:", isViewable);
-                });
-            }
-
-            // Initialize MRAID if available
-            if (typeof mraid !== "undefined") {
-                initMRAID();
-            } else {
-                console.error(
-                    "MRAID is not available. Test in an MRAID-compliant environment."
-                );
-            }
-        </script>
+        <div id="ad-container">Playable Ad Content</div>
     </body>
 </html>
