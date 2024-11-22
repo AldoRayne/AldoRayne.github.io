@@ -32,6 +32,7 @@
         <meta name="x5-orientation" content />
         <meta name="x5-page-mode" content="app" />
 
+        <meta name="ad.orientation" content="portrait">
         <meta name="ad.size" content="width=320,height=480" />
         <style>
             html {
@@ -189,7 +190,7 @@
                 height: 2.7rem;
                 position: relative;
                 bottom: 0.563rem;
-                background-image: url('https://aldorayne.github.io/images/marker-min.png');
+                background-image: url('./images/marker-min.png');
                 background-size: contain;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -335,7 +336,7 @@
                 display: block;
                 width: 100%;
                 height: 100%;
-                background-image: url('https://aldorayne.github.io/images/wrong-min.png');
+                background-image: url('./images/wrong-min.png');
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: center;
@@ -372,7 +373,7 @@
                 width: 5rem;
                 height: 5rem;
                 position: absolute;
-                background-image: url('https://aldorayne.github.io/images/correct-min.png');
+                background-image: url('./images/correct-min.png');
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: center;
@@ -594,10 +595,10 @@
     <body>
         <div class="wrapper js-first-screen">
             <div class="headline">
-                <img class="title js-title" src="https://aldorayne.github.io/images/title-min.png" />
+                <img class="title js-title" src="./images/title-min.png" />
                 <img
                     class="completed js-completed"
-                    src="https://aldorayne.github.io/images/completed-min.png"
+                    src="./images/completed-min.png"
                 />
                 <div class="progress js-progress">
                     <div class="progress__item progress__item_active"></div>
@@ -611,22 +612,22 @@
                     <div class="progress__item"></div>
                     <div class="progress__item"></div>
                     <div class="progress__marker">
-                        <img class="progress__img" src="https://aldorayne.github.io/images/brain-min.png" />
+                        <img class="progress__img" src="./images/brain-min.png" />
                         <img
                             class="progress__marker-emoji progress__marker-emoji_sad"
-                            src="https://aldorayne.github.io/images/sad-min.png"
+                            src="./images/sad-min.png"
                         />
                         <img
                             class="progress__marker-emoji progress__marker-emoji_smile"
-                            src="https://aldorayne.github.io/images/smile-min.png"
+                            src="./images/smile-min.png"
                         />
                         <img
                             class="progress__marker-emoji progress__marker-emoji_happy"
-                            src="https://aldorayne.github.io/images/happy-min.png"
+                            src="./images/happy-min.png"
                         />
                         <img
                             class="progress__marker-emoji progress__marker-emoji_amazed"
-                            src="https://aldorayne.github.io/images/amazed-min.png"
+                            src="./images/amazed-min.png"
                         />
                     </div>
                 </div>
@@ -647,11 +648,11 @@
                         <button class="compare-btn" data-compare="10"></button>
                         <img
                             class="img-wrapper__glow js-hint"
-                            src="https://aldorayne.github.io/images/glow-min.png"
+                            src="./images/glow-min.png"
                         />
                         <img
                             class="img-wrapper__hand js-hint"
-                            src="https://aldorayne.github.io/images/hand-min.png"
+                            src="./images/hand-min.png"
                         />
                     </div>
                     <div class="img-wrapper__compare img-wrapper__compare_bottom">
@@ -666,28 +667,28 @@
                         <button class="compare-btn" data-compare="9"></button>
                         <button class="compare-btn" data-compare="10"></button>
                     </div>
-                    <img class="img-wrapper__img" src="https://aldorayne.github.io/images/pic1-min.png" />
-                    <img class="img-wrapper__img" src="https://aldorayne.github.io/images/pic2-min.png" />
+                    <img class="img-wrapper__img" src="./images/pic1-min.png" />
+                    <img class="img-wrapper__img" src="./images/pic2-min.png" />
                 </div>
             </div>
         </div>
         <div class="wrapper js-second-screen">
             <div class="play-now__block play-now__block_first">
-                <img class="play-now__img" src="https://aldorayne.github.io/images/play-next-1-min.png" />
-                <img class="play-now__img" src="https://aldorayne.github.io/images/play-next-2-min.png" />
-                <img class="play-now__hand" src="https://aldorayne.github.io/images/hand-min.png" />
+                <img class="play-now__img" src="./images/play-next-1-min.png" />
+                <img class="play-now__img" src="./images/play-next-2-min.png" />
+                <img class="play-now__hand" src="./images/hand-min.png" />
             </div>
             <div class="play-now__block play-now__block_second">
-                <img class="play-now__img" src="https://aldorayne.github.io/images/packshot_text-min.png" />
+                <img class="play-now__img" src="./images/packshot_text-min.png" />
                 <img
                     id="playBtn"
                     class="play-now__img"
-                    src="https://aldorayne.github.io/images/packshot_button-min.png"
+                    src="./images/packshot_button-min.png"
                 />
             </div>
         </div>
         <audio id="audio">
-            <source src="https://aldorayne.github.io/sounds/music.mp3" type="audio/mp3" />
+            <source src="./sounds/music.mp3" type="audio/mp3" />
         </audio>
 
         <script>
@@ -735,8 +736,8 @@
                 }
             }
 
-            const audioCorrect = new Audio('https://aldorayne.github.io/sounds/correct.mp3');
-            const audioWrong = new Audio('https://aldorayne.github.io/sounds/wrong.mp3');
+            const audioCorrect = new Audio('./sounds/correct.mp3');
+            const audioWrong = new Audio('./sounds/wrong.mp3');
 
             const firstScreen = document.querySelector('.js-first-screen');
             const secondScreen = document.querySelector('.js-second-screen');
@@ -783,7 +784,7 @@
                             // win
                             if (count === 3) {
                                 await delay(500);
-                                const audioWin = new Audio('https://aldorayne.github.io/sounds/win.mp3');
+                                const audioWin = new Audio('./sounds/win.mp3');
                                 audioWin.play();
 
                                 progress.remove();
