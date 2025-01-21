@@ -4,6 +4,18 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Phaser Game</title>
+        <style>
+            /* Center the game canvas */
+            body {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                background-color: #f0f0f0;
+            }
+        </style>
     </head>
     <body>
         <script
@@ -14,7 +26,71 @@
         ></script>
 
         <script>
-            
+            class GameScene extends Phaser.Scene {
+                preload() {
+                    // Load the background image and other images
+                    this.load.image('background', 'assets/background-min.png');
+                    this.load.image('pic-1', 'assets/pic1-min.png');
+                    this.load.image('pic-2', 'assets/pic2-min.png');
+                }
+
+                create() {
+                    // Set the background image to fill the entire screen
+                    this.add.image(this.cameras.main.width / 2, this.cameras.main.height / 2, 'background')
+                        .setOrigin(0.5, 0.5)
+                        .setDisplaySize(this.cameras.main.width, this.cameras.main.height);  // Set the background size to fill the screen
+
+                    // Add images side by side, each taking half the width of the screen
+                    this.image1 = this.add.image(0, 0, 'pic-1').setOrigin(0.5, 0.5);
+                    this.image2 = this.add.image(0, 0, 'pic-2').setOrigin(0.5, 0.5);
+
+                    this.resizeImages();
+
+                    // Listen for window resize events
+                    this.scale.on('resize', () => {
+                        this.resizeImages();
+                    });
+                }
+
+                resizeImages() {
+                    const { width, height } = this.scale;
+                    const halfWidth = width / 2;  // Half of the screen width
+
+                    // Get original dimensions of images
+                    const img1Width = this.image1.width;
+                    const img1Height = this.image1.height;
+                    const img2Width = this.image2.width;
+                    const img2Height = this.image2.height;
+
+                    // Calculate height based on the aspect ratio (width = 50% of screen width)
+                    const scale1 = halfWidth / img1Width;
+                    const scale2 = halfWidth / img2Width;
+
+                    // Apply scaling to images
+                    this.image1.setScale(scale1);
+                    this.image2.setScale(scale2);
+
+                    // Position the images side by side
+                    const centerX = width / 2;
+                    const centerY = height / 2;
+
+                    this.image1.setPosition(centerX - halfWidth / 2, centerY);  // Left side
+                    this.image2.setPosition(centerX + halfWidth / 2, centerY);  // Right side
+                }
+            }
+
+            const config = {
+                type: Phaser.AUTO,
+                width: window.innerWidth,
+                height: window.innerHeight,
+                scene: new GameScene(),
+                scale: {
+                    mode: Phaser.Scale.RESIZE,
+                    autoCenter: Phaser.Scale.CENTER_BOTH,
+                },
+            };
+
+            const game = new Phaser.Game(config);
         </script>
     </body>
 </html>
